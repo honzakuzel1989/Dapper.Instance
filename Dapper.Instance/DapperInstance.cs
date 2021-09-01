@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Instance
 {
-    public class Dapper : IDapper
+    public class DapperInstance : IDapper
     {
         public SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord
         {
