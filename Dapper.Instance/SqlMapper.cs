@@ -8,6 +8,121 @@ namespace Dapper.Instance
 {
     public class SqlMapper : ISqlMapper
     {
+        //
+        // Summary:
+        //     Gets type-map for the given type
+        //
+        // Returns:
+        //     Type map instance, default is to create new instance of DefaultTypeMap
+        public static Func<Type, Dapper.SqlMapper.ITypeMap> TypeMapProvider
+        {
+            get => Dapper.SqlMapper.TypeMapProvider;
+            set => Dapper.SqlMapper.TypeMapProvider = value;
+        }
+
+        //
+        // Summary:
+        //     How should connection strings be compared for equivalence? Defaults to StringComparer.Ordinal.
+        //     Providing a custom implementation can be useful for allowing multi-tenancy databases
+        //     with identical schema to share strategies. Note that usual equivalence rules
+        //     apply: any equivalent connection strings MUST yield the same hash-code.
+        public static IEqualityComparer<string> ConnectionStringComparer
+        {
+            get => Dapper.SqlMapper.ConnectionStringComparer;
+            set => Dapper.SqlMapper.ConnectionStringComparer = value;
+        }
+
+        //
+        // Summary:
+        //     Called if the query cache is purged via PurgeQueryCache
+        public static event EventHandler QueryCachePurged
+        {
+            add { Dapper.SqlMapper.QueryCachePurged += value; }
+            remove { Dapper.SqlMapper.QueryCachePurged -= value; }
+        }
+
+        //
+        // Summary:
+        //     Configure the specified type to be processed by a custom handler.
+        //
+        // Parameters:
+        //   handler:
+        //     The handler for the type T.
+        //
+        // Type parameters:
+        //   T:
+        //     The type to handle.
+        public static void AddTypeHandler<T>(Dapper.SqlMapper.TypeHandler<T> handler)
+        {
+            Dapper.SqlMapper.AddTypeHandler<T>(handler);
+        }
+        //
+        // Summary:
+        //     Configure the specified type to be processed by a custom handler.
+        //
+        // Parameters:
+        //   type:
+        //     The type to handle.
+        //
+        //   handler:
+        //     The handler to process the type.
+        public static void AddTypeHandler(Type type, Dapper.SqlMapper.ITypeHandler handler)
+        {
+            Dapper.SqlMapper.AddTypeHandler(type, handler);
+        }
+        //
+        // Summary:
+        //     Configure the specified type to be processed by a custom handler.
+        //
+        // Parameters:
+        //   type:
+        //     The type to handle.
+        //
+        //   handler:
+        //     The handler to process the type.
+        //
+        //   clone:
+        //     Whether to clone the current type handler map.
+        public static void AddTypeHandlerImpl(Type type, Dapper.SqlMapper.ITypeHandler handler, bool clone)
+        {
+            Dapper.SqlMapper.AddTypeHandlerImpl(type, handler, clone);
+        }
+        //
+        // Summary:
+        //     Configure the specified type to be mapped to a given db-type.
+        //
+        // Parameters:
+        //   type:
+        //     The type to map from.
+        //
+        //   dbType:
+        //     The database type to map to.
+        public static void AddTypeMap(Type type, DbType dbType)
+        {
+            Dapper.SqlMapper.AddTypeMap(type, dbType);
+        }
+        //
+        // Summary:
+        //     Set custom mapping for type deserializers
+        //
+        // Parameters:
+        //   type:
+        //     Entity type to override
+        //
+        //   map:
+        //     Mapping rules implementation, null to remove custom map
+        public static void SetTypeMap(Type type, Dapper.SqlMapper.ITypeMap map)
+        {
+            Dapper.SqlMapper.SetTypeMap(type, map);
+        }
+        //
+        // Summary:
+        //     Clear the registered type handlers.
+        public static void ResetTypeHandlers()
+        {
+            Dapper.SqlMapper.ResetTypeHandlers();
+        }
+
         public Dapper.SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord
         {
             return Dapper.SqlMapper.AsTableValuedParameter<T>(list, typeName);
@@ -516,6 +631,16 @@ namespace Dapper.Instance
         public Task<T> QuerySingleOrDefaultAsync<T>(IDbConnection cnn, CommandDefinition command)
         {
             return Dapper.SqlMapper.QuerySingleOrDefaultAsync<T>(cnn, command);
+        }
+
+        public void ReplaceLiterals(Dapper.SqlMapper.IParameterLookup parameters, IDbCommand command)
+        {
+            Dapper.SqlMapper.ReplaceLiterals(parameters, command);
+        }
+
+        public void SetTypeName(DataTable table, string typeName)
+        {
+            Dapper.SqlMapper.SetTypeName(table, typeName);
         }
     }
 }

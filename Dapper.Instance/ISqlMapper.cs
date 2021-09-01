@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
-using static Dapper.SqlMapper;
 
 namespace Dapper.Instance
 {
@@ -19,7 +18,7 @@ namespace Dapper.Instance
         //
         //   typeName:
         //     The sql parameter type name.
-        ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
+        Dapper.SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
         //
         // Summary:
         //     Used to pass a DataTable as a Dapper.TableValuedParameter.
@@ -30,7 +29,7 @@ namespace Dapper.Instance
         //
         //   typeName:
         //     The name of the type parameter is for.
-        ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
+        Dapper.SqlMapper.ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
         //
         // Summary:
         //     Execute parameterized SQL.
@@ -2287,7 +2286,7 @@ namespace Dapper.Instance
         //
         //   commandType:
         //     Is it a stored proc or a batch?
-        GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        Dapper.SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2298,7 +2297,7 @@ namespace Dapper.Instance
         //
         //   command:
         //     The command to execute for query.
-        GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
+        Dapper.SqlMapper.GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2309,7 +2308,7 @@ namespace Dapper.Instance
         //
         //   command:
         //     The command to execute for query.
-        Task<GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
+        Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2332,7 +2331,7 @@ namespace Dapper.Instance
         //
         //   commandType:
         //     Is it a stored proc or a batch?
-        Task<GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         //
         // Summary:
         //     Executes a single-row query, returning the data typed as type.
@@ -2811,5 +2810,27 @@ namespace Dapper.Instance
         //   T:
         //     The type to return.
         Task<T> QuerySingleOrDefaultAsync<T>(IDbConnection cnn, CommandDefinition command);
+        //
+        // Summary:
+        //     Replace all literal tokens with their text form.
+        //
+        // Parameters:
+        //   parameters:
+        //     The parameter lookup to do replacements with.
+        //
+        //   command:
+        //     The command to replace parameters in.
+        void ReplaceLiterals(Dapper.SqlMapper.IParameterLookup parameters, IDbCommand command);
+        //
+        // Summary:
+        //     Associate a DataTable with a type name.
+        //
+        // Parameters:
+        //   table:
+        //     The System.Data.DataTable that does with the typeName.
+        //
+        //   typeName:
+        //     The name of the type this table is for.
+        void SetTypeName(DataTable table, string typeName);
     }
 }
