@@ -2832,5 +2832,13 @@ namespace Dapper.Instance
         //   typeName:
         //     The name of the type this table is for.
         void SetTypeName(DataTable table, string typeName);
+        //
+        // Summary:
+        //     Fetch the type name associated with a System.Data.DataTable.
+        //
+        // Parameters:
+        //   table:
+        //     The System.Data.DataTable that has a type name associated with it.
+        string GetTypeName(DataTable table);
     }
 }

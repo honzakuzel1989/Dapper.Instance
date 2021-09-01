@@ -122,6 +122,24 @@ namespace Dapper.Instance
         {
             SqlMapper.ResetTypeHandlers();
         }
+        //
+        // Summary:
+        //     Removes the specified type from the Type/DbType mapping table.
+        //
+        // Parameters:
+        //   type:
+        //     The type to remove from the current map.
+        public static void RemoveTypeMap(Type type)
+        {
+            SqlMapper.RemoveTypeMap(type);
+        }
+        //
+        // Summary:
+        //     Purge the query cache
+        public static void PurgeQueryCache()
+        {
+            SqlMapper.PurgeQueryCache();
+        }
 
         public SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord
         {
@@ -641,6 +659,11 @@ namespace Dapper.Instance
         public void SetTypeName(DataTable table, string typeName)
         {
             SqlMapper.SetTypeName(table, typeName);
+        }
+
+        public string GetTypeName(DataTable table)
+        {
+            return SqlMapper.GetTypeName(table);
         }
     }
 }
