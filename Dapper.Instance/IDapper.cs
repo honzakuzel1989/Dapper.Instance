@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Instance
 {
-    public interface ISqlMapper
+    public interface IDapper
     {
         //
         // Summary:
@@ -18,7 +18,7 @@ namespace Dapper.Instance
         //
         //   typeName:
         //     The sql parameter type name.
-        Dapper.SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
+        SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
         //
         // Summary:
         //     Used to pass a DataTable as a Dapper.TableValuedParameter.
@@ -29,7 +29,7 @@ namespace Dapper.Instance
         //
         //   typeName:
         //     The name of the type parameter is for.
-        Dapper.SqlMapper.ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
+        SqlMapper.ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
         //
         // Summary:
         //     Execute parameterized SQL.
@@ -2286,7 +2286,7 @@ namespace Dapper.Instance
         //
         //   commandType:
         //     Is it a stored proc or a batch?
-        Dapper.SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2297,7 +2297,7 @@ namespace Dapper.Instance
         //
         //   command:
         //     The command to execute for query.
-        Dapper.SqlMapper.GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
+        SqlMapper.GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2308,7 +2308,7 @@ namespace Dapper.Instance
         //
         //   command:
         //     The command to execute for query.
-        Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
+        Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
         //
         // Summary:
         //     Execute a command that returns multiple result sets, and access each in turn.
@@ -2331,7 +2331,7 @@ namespace Dapper.Instance
         //
         //   commandType:
         //     Is it a stored proc or a batch?
-        Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         //
         // Summary:
         //     Executes a single-row query, returning the data typed as type.
@@ -2820,7 +2820,7 @@ namespace Dapper.Instance
         //
         //   command:
         //     The command to replace parameters in.
-        void ReplaceLiterals(Dapper.SqlMapper.IParameterLookup parameters, IDbCommand command);
+        void ReplaceLiterals(SqlMapper.IParameterLookup parameters, IDbCommand command);
         //
         // Summary:
         //     Associate a DataTable with a type name.
