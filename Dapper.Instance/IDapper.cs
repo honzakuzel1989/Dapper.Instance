@@ -8,2837 +8,1301 @@ namespace Dapper.Instance
 {
     public interface IDapper
     {
-        //
-        // Summary:
-        //     Used to pass a IEnumerable<SqlDataRecord> as a TableValuedParameter.
-        //
-        // Parameters:
-        //   list:
-        //     The list of records to convert to TVPs.
-        //
-        //   typeName:
-        //     The sql parameter type name.
+        /// <summary>
+        /// Used to pass a IEnumerable<SqlDataRecord> as a TableValuedParameter.
+        /// </summary>
+        /// <param name="list">The list of records to convert to TVPs.</param>
+        /// <param name="typeName">The sql parameter type name.</param>
         SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
-        //
-        // Summary:
-        //     Used to pass a DataTable as a Dapper.TableValuedParameter.
-        //
-        // Parameters:
-        //   table:
-        //     The System.Data.DataTable to create parameter for.
-        //
-        //   typeName:
-        //     The name of the type parameter is for.
+        /// <summary>
+        /// Used to pass a DataTable as a Dapper.TableValuedParameter.
+        /// </summary>
+        /// <param name="table">The System.Data.DataTable to create parameter for.</param>
+        /// <param name="typeName">The name of the type parameter is for.</param>
         SqlMapper.ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     The number of rows affected.
+        /// <summary>
+        /// Execute parameterized SQL.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for query.</param>
+        /// <param name="param">The parameters to use for query.</param>
+        /// <param name="transaction">The transaction to use for query.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The number of rows affected.</returns>
         int Execute(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute on connection.
-        //
-        // Returns:
-        //     The number of rows affected.
+        /// <summary>
+        /// Execute parameterized SQL.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute on connection.</param>
+        /// <returns>The number of rows affected.</returns>
         int Execute(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a command asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute on connection.
-        //
-        // Returns:
-        //     The number of rows affected.
+        /// <summary>
+        /// Execute a command asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute on this connection.</param>
+        /// <returns>The number of rows affected.</returns>
         Task<int> ExecuteAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a command asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     The number of rows affected.
+        /// <summary>
+        /// Execute a command asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The number of rows affected.</returns>
         Task<int> ExecuteAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   commandBehavior:
-        //     The System.Data.CommandBehavior flags for reader.
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags for this reader.</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
         IDataReader ExecuteReader(IDbConnection cnn, CommandDefinition command, CommandBehavior commandBehavior);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
         IDataReader ExecuteReader(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// DataTable table = new DataTable("MyTable");
+        /// using (var reader = ExecuteReader(cnn, sql, param))
+        /// {
+        ///     table.Load(reader);
+        /// }
+        /// ]]>
+        /// </code>
+        /// </example>
         IDataReader ExecuteReader(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   commandBehavior:
-        //     The System.Data.CommandBehavior flags for reader.
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags for this reader.</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
         Task<IDataReader> ExecuteReaderAsync(IDbConnection cnn, CommandDefinition command, CommandBehavior commandBehavior);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return a System.Data.Common.DbDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
+        /// <summary>
+        /// Execute parameterized SQL and return a <see cref="DbDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
         Task<DbDataReader> ExecuteReaderAsync(DbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
         Task<IDataReader> ExecuteReaderAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return a System.Data.Common.DbDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
+        /// <summary>
+        /// Execute parameterized SQL and return a <see cref="DbDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
         Task<DbDataReader> ExecuteReaderAsync(DbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return an System.Data.IDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     An System.Data.IDataReader that can be used to iterate over the results of the
-        //     SQL query.
-        //
-        // Remarks:
-        //     is typically used when the results of a query are not processed by Dapper,
-        //     for example, used to fill a System.Data.DataTable or DataSet.
+        /// <summary>
+        /// Execute parameterized SQL and return an <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An <see cref="IDataReader"/> that can be used to iterate over the results of the SQL query.</returns>
+        /// <remarks>
+        /// This is typically used when the results of a query are not processed by Dapper, for example, used to fill a <see cref="DataTable"/>
+        /// or <see cref="T:DataSet"/>.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// DataTable table = new DataTable("MyTable");
+        /// using (var reader = ExecuteReader(cnn, sql, param))
+        /// {
+        ///     table.Load(reader);
+        /// }
+        /// ]]>
+        /// </code>
+        /// </example>
         Task<IDataReader> ExecuteReaderAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL and return a System.Data.Common.DbDataReader.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   commandBehavior:
-        //     The System.Data.CommandBehavior flags for reader.
+        /// <summary>
+        /// Execute parameterized SQL and return a <see cref="DbDataReader"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags for this reader.</param>
         Task<DbDataReader> ExecuteReaderAsync(DbConnection cnn, CommandDefinition command, CommandBehavior commandBehavior);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     The first cell selected as System.Object.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The first cell selected as <see cref="object"/>.</returns>
         object ExecuteScalar(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
-        //
-        // Returns:
-        //     The first cell returned, as T.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The first cell returned, as <typeparamref name="T"/>.</returns>
         T ExecuteScalar<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
-        //
-        // Returns:
-        //     The first cell selected as T.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>The first cell selected as <typeparamref name="T"/>.</returns>
         T ExecuteScalar<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Returns:
-        //     The first cell selected as System.Object.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>The first cell selected as <see cref="object"/>.</returns>
         object ExecuteScalar(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Returns:
-        //     The first cell selected as System.Object.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>The first cell selected as <see cref="object"/>.</returns>
         Task<object> ExecuteScalarAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
-        //
-        // Returns:
-        //     The first cell returned, as T.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The first cell returned, as <typeparamref name="T"/>.</returns>
         Task<T> ExecuteScalarAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   sql:
-        //     The SQL to execute.
-        //
-        //   param:
-        //     The parameters to use for command.
-        //
-        //   transaction:
-        //     The transaction to use for command.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Returns:
-        //     The first cell returned, as System.Object.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="sql">The SQL to execute.</param>
+        /// <param name="param">The parameters to use for this command.</param>
+        /// <param name="transaction">The transaction to use for this command.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>The first cell returned, as <see cref="object"/>.</returns>
         Task<object> ExecuteScalarAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute parameterized SQL that selects a single value.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to execute on.
-        //
-        //   command:
-        //     The command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
-        //
-        // Returns:
-        //     The first cell selected as T.
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to execute on.</param>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>The first cell selected as <typeparamref name="T"/>.</returns>
         Task<T> ExecuteScalarAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Gets the row parser for a specific row on a data reader. allows for type
-        //     switching every row based on, for example, a TypeId column. You could return
-        //     a collection of the base type but have each more specific.
-        //
-        // Parameters:
-        //   reader:
-        //     The data reader to get the parser for the current row from.
-        //
-        //   concreteType:
-        //     The type to get the parser for.
-        //
-        //   startIndex:
-        //     The start column index of the object (default: 0).
-        //
-        //   length:
-        //     The length of columns to read (default: -1 = all fields following startIndex).
-        //
-        //   returnNullIfFirstMissing:
-        //     Return null if we can't find the first column? (default: false).
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A parser for specific object from row.
+        /// <summary>
+        /// Gets the row parser for a specific row on a data reader. This allows for type switching every row based on, for example, a TypeId column.
+        /// You could return a collection of the base type but have each more specific.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="reader">The data reader to get the parser for the current row from.</param>
+        /// <param name="concreteType">The type to get the parser for.</param>
+        /// <param name="startIndex">The start column index of the object (default: 0).</param>
+        /// <param name="length">The length of columns to read (default: -1 = all fields following startIndex).</param>
+        /// <param name="returnNullIfFirstMissing">Return null if we can't find the first column? (default: false).</param>
+        /// <returns>A parser for this specific object from this row.</returns>
+        /// <example>
+        /// var result = new List&lt;BaseType&gt;();
+        /// using (var reader = connection.ExecuteReader(@"
+        ///   select 'abc' as Name, 1 as Type, 3.0 as Value
+        ///   union all
+        ///   select 'def' as Name, 2 as Type, 4.0 as Value"))
+        /// {
+        ///     if (reader.Read())
+        ///     {
+        ///         var toFoo = reader.GetRowParser&lt;BaseType&gt;(typeof(Foo));
+        ///         var toBar = reader.GetRowParser&lt;BaseType&gt;(typeof(Bar));
+        ///         var col = reader.GetOrdinal("Type");
+        ///         do
+        ///         {
+        ///             switch (reader.GetInt32(col))
+        ///             {
+        ///                 case 1:
+        ///                     result.Add(toFoo(reader));
+        ///                     break;
+        ///                 case 2:
+        ///                     result.Add(toBar(reader));
+        ///                     break;
+        ///             }
+        ///         } while (reader.Read());
+        ///     }
+        /// }
+        ///  
+        /// abstract class BaseType
+        /// {
+        ///     public abstract int Type { get; }
+        /// }
+        /// class Foo : BaseType
+        /// {
+        ///     public string Name { get; set; }
+        ///     public override int Type =&gt; 1;
+        /// }
+        /// class Bar : BaseType
+        /// {
+        ///     public float Value { get; set; }
+        ///     public override int Type =&gt; 2;
+        /// }
+        /// </example>
         Func<IDataReader, T> GetRowParser<T>(IDataReader reader, Type concreteType = null, int startIndex = 0, int length = -1, bool returnNullIfFirstMissing = false);
-        //
-        // Summary:
-        //     Gets the row parser for a specific row on a data reader. allows for type
-        //     switching every row based on, for example, a TypeId column. You could return
-        //     a collection of the base type but have each more specific.
-        //
-        // Parameters:
-        //   reader:
-        //     The data reader to get the parser for the current row from
-        //
-        //   type:
-        //     The type to get the parser for
-        //
-        //   startIndex:
-        //     The start column index of the object (default 0)
-        //
-        //   length:
-        //     The length of columns to read (default -1 = all fields following startIndex)
-        //
-        //   returnNullIfFirstMissing:
-        //     Return null if we can't find the first column? (default false)
-        //
-        // Returns:
-        //     A parser for specific object from row.
+        /// <summary>
+        /// Gets the row parser for a specific row on a data reader. This allows for type switching every row based on, for example, a TypeId column.
+        /// You could return a collection of the base type but have each more specific.
+        /// </summary>
+        /// <param name="reader">The data reader to get the parser for the current row from</param>
+        /// <param name="type">The type to get the parser for</param>
+        /// <param name="startIndex">The start column index of the object (default 0)</param>
+        /// <param name="length">The length of columns to read (default -1 = all fields following startIndex)</param>
+        /// <param name="returnNullIfFirstMissing">Return null if we can't find the first column? (default false)</param>
+        /// <returns>A parser for this specific object from this row.</returns>
         Func<IDataReader, object> GetRowParser(IDataReader reader, Type type, int startIndex = 0, int length = -1, bool returnNullIfFirstMissing = false);
-        //
-        // Summary:
-        //     Parses a data reader to a sequence of data of the supplied type (as object).
-        //     Used for deserializing a reader without a connection, etc.
-        //
-        // Parameters:
-        //   reader:
-        //     The data reader to parse results from.
-        //
-        //   type:
-        //     The type to parse from the reader.
+        /// <summary>
+        /// Parses a data reader to a sequence of data of the supplied type (as object). Used for deserializing a reader without a connection, etc.
+        /// </summary>
+        /// <param name="reader">The data reader to parse results from.</param>
+        /// <param name="type">The type to parse from the <paramref name="reader"/>.</param>
         IEnumerable<object> Parse(IDataReader reader, Type type);
-        //
-        // Summary:
-        //     Parses a data reader to a sequence of data of the supplied type. Used for deserializing
-        //     a reader without a connection, etc.
-        //
-        // Parameters:
-        //   reader:
-        //     The data reader to parse results from.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to parse from the reader.
+        /// <summary>
+        /// Parses a data reader to a sequence of data of the supplied type. Used for deserializing a reader without a connection, etc.
+        /// </summary>
+        /// <typeparam name="T">The type to parse from the <paramref name="reader"/>.</typeparam>
+        /// <param name="reader">The data reader to parse results from.</param>
         IEnumerable<T> Parse<T>(IDataReader reader);
-        //
-        // Summary:
-        //     Parses a data reader to a sequence of dynamic. Used for deserializing a reader
-        //     without a connection, etc.
-        //
-        // Parameters:
-        //   reader:
-        //     The data reader to parse results from.
+        /// <summary>
+        /// Parses a data reader to a sequence of dynamic. Used for deserializing a reader without a connection, etc.
+        /// </summary>
+        /// <param name="reader">The data reader to parse results from.</param>
         IEnumerable<dynamic> Parse(IDataReader reader);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as type.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   buffered:
-        //     Whether to buffer results in memory.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="buffered">Whether to buffer results in memory.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         IEnumerable<object> Query(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   buffered:
-        //     Whether to buffer results in memory.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column is assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="buffered">Whether to buffer results in memory.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         IEnumerable<T> Query<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with an arbitrary number of input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   types:
-        //     Array of types in the recordset.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with an arbitrary number of input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="types">Array of types in the recordset.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TReturn>(IDbConnection cnn, string sql, Type[] types, Func<object[], TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 7 input types. If you need more types -> use
-        //     Query with Type[] parameter. returns a single type, combined from the raw
-        //     types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TSeventh:
-        //     The seventh type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 7 input types. If you need more types -> use Query with Type[] parameter.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TSeventh">The seventh type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 6 input types. returns a single type,
-        //     combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 6 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 2 input types. returns a single type,
-        //     combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 2 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 5 input types. returns a single type,
-        //     combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 5 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 4 input types. returns a single type,
-        //     combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 4 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TThird, TFourth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Return a sequence of dynamic objects with properties matching the columns.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: each row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Return a sequence of dynamic objects with properties matching the columns.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         IEnumerable<dynamic> Query(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform a multi-mapping query with 3 input types. returns a single type,
-        //     combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a multi-mapping query with 3 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         IEnumerable<TReturn> Query<TFirst, TSecond, TThird, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A sequence of data of T; if a basic type (int, string, etc) is queried then the
-        //     data from the first column in assumed, otherwise an instance is created per row,
-        //     and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         IEnumerable<T> Query<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 2 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 2 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 2 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 2 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: each row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<IEnumerable<dynamic>> QueryAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Remarks:
-        //     Note: each row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<IEnumerable<dynamic>> QueryAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 3 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 3 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 3 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 3 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TThird, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 4 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 4 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 4 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 4 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   command:
-        //     The command used to query on connection.
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<IEnumerable<object>> QueryAsync(IDbConnection cnn, Type type, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A sequence of data of T; if a basic type (int, string, etc) is queried then the
-        //     data from the first column in assumed, otherwise an instance is created per row,
-        //     and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         Task<IEnumerable<T>> QueryAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 5 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 5 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 6 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 6 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 6 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 6 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 7 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TSeventh:
-        //     The seventh type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 7 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TSeventh">The seventh type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 7 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TSixth:
-        //     The sixth type in the recordset.
-        //
-        //   TSeventh:
-        //     The seventh type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform an asynchronous multi-mapping query with 7 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TSeventh">The seventh type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with an arbitrary number of input
-        //     types. returns a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   types:
-        //     Array of types in the recordset.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   buffered:
-        //     Whether to buffer the results in memory.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
-        //
-        // Type parameters:
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with an arbitrary number of input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="types">Array of types in the recordset.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="buffered">Whether to buffer the results in memory.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TReturn>(IDbConnection cnn, string sql, Type[] types, Func<object[], TReturn> map, object param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         Task<IEnumerable<object>> QueryAsync(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Perform an asynchronous multi-mapping query with 5 input types. returns
-        //     a single type, combined from the raw types via map.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   splitOn:
-        //     The field we should split and read the second object from (default: "Id").
-        //
-        //   command:
-        //     The command to execute.
-        //
-        //   map:
-        //     The function to map row types to the return type.
-        //
-        // Type parameters:
-        //   TFirst:
-        //     The first type in the recordset.
-        //
-        //   TSecond:
-        //     The second type in the recordset.
-        //
-        //   TThird:
-        //     The third type in the recordset.
-        //
-        //   TFourth:
-        //     The fourth type in the recordset.
-        //
-        //   TFifth:
-        //     The fifth type in the recordset.
-        //
-        //   TReturn:
-        //     The combined type to return.
-        //
-        // Returns:
-        //     An enumerable of TReturn.
+        /// <summary>
+        /// Perform a asynchronous multi-mapping query with 5 input types.
+        /// This returns a single type, combined from the raw types via <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="command">The command to execute.</param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <returns>An enumerable of <typeparamref name="TReturn"/>.</returns>
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(IDbConnection cnn, CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, string splitOn = "Id");
-        //
-        // Summary:
-        //     Execute a query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
-        //
-        // Returns:
-        //     A sequence of data of T; if a basic type (int, string, etc) is queried then the
-        //     data from the first column in assumed, otherwise an instance is created per row,
-        //     and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         Task<IEnumerable<T>> QueryAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A single instance or null of the supplied type; if a basic type (int, string,
-        //     etc) is queried then the data from the first column in assumed, otherwise an
-        //     instance is created per row, and a direct column-name===member-name mapping is
-        //     assumed (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A single instance or null of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QueryFirst<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as type.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         object QueryFirst(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QueryFirst<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Return a dynamic object with properties matching the columns.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Return a dynamic object with properties matching the columns.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         dynamic QueryFirst(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<dynamic> QueryFirstAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<T> QueryFirstAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<dynamic> QueryFirstAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   command:
-        //     The command used to query on connection.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<object> QueryFirstAsync(IDbConnection cnn, Type type, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<T> QueryFirstAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         Task<object> QueryFirstAsync(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QueryFirstOrDefault<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A single or null instance of the supplied type; if a basic type (int, string,
-        //     etc) is queried then the data from the first column in assumed, otherwise an
-        //     instance is created per row, and a direct column-name===member-name mapping is
-        //     assumed (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A single or null instance of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QueryFirstOrDefault<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Return a dynamic object with properties matching the columns.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Return a dynamic object with properties matching the columns.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         dynamic QueryFirstOrDefault(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as type.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         object QueryFirstOrDefault(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<dynamic> QueryFirstOrDefaultAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<dynamic> QueryFirstOrDefaultAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<T> QueryFirstOrDefaultAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         Task<object> QueryFirstOrDefaultAsync(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<T> QueryFirstOrDefaultAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   command:
-        //     The command used to query on connection.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<object> QueryFirstOrDefaultAsync(IDbConnection cnn, Type type, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a command that returns multiple result sets, and access each in turn.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
         SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a command that returns multiple result sets, and access each in turn.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command to execute for query.
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command to execute for this query.</param>
         SqlMapper.GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a command that returns multiple result sets, and access each in turn.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command to execute for query.
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command to execute for this query.</param>
         Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a command that returns multiple result sets, and access each in turn.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for query.
-        //
-        //   param:
-        //     The parameters to use for query.
-        //
-        //   transaction:
-        //     The transaction to use for query.
-        //
-        //   commandTimeout:
-        //     Number of seconds before command execution timeout.
-        //
-        //   commandType:
-        //     Is it a stored proc or a batch?
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for this query.</param>
+        /// <param name="param">The parameters to use for this query.</param>
+        /// <param name="transaction">The transaction to use for this query.</param>
+        /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
         Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as type.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         object QuerySingle(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A single instance of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A single instance of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QuerySingle<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QuerySingle<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Return a dynamic object with properties matching the columns.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Return a dynamic object with properties matching the columns.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         dynamic QuerySingle(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<dynamic> QuerySingleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         Task<object> QuerySingleAsync(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<T> QuerySingleAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   command:
-        //     The command used to query on connection.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<object> QuerySingleAsync(IDbConnection cnn, Type type, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<T> QuerySingleAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<dynamic> QuerySingleAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Return a dynamic object with properties matching the columns.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Return a dynamic object with properties matching the columns.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         dynamic QuerySingleOrDefault(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of results to return.
-        //
-        // Returns:
-        //     A single instance of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of results to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <returns>
+        /// A single instance of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QuerySingleOrDefault<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as T.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type of result to return.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of result to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         T QuerySingleOrDefault<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Executes a single-row query, returning the data typed as type.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Returns:
-        //     A sequence of data of the supplied type; if a basic type (int, string, etc) is
-        //     queried then the data from the first column in assumed, otherwise an instance
-        //     is created per row, and a direct column-name===member-name mapping is assumed
-        //     (case insensitive).
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+        /// <returns>
+        /// A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
         object QuerySingleOrDefault(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Exceptions:
-        //   T:System.ArgumentNullException:
-        //     type is null.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         Task<object> QuerySingleOrDefaultAsync(IDbConnection cnn, Type type, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   type:
-        //     The type to return.
-        //
-        //   command:
-        //     The command used to query on connection.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="type">The type to return.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<object> QuerySingleOrDefaultAsync(IDbConnection cnn, Type type, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<dynamic> QuerySingleOrDefaultAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   sql:
-        //     The SQL to execute for the query.
-        //
-        //   param:
-        //     The parameters to pass, if any.
-        //
-        //   transaction:
-        //     The transaction to use, if any.
-        //
-        //   commandTimeout:
-        //     The command timeout (in seconds).
-        //
-        //   commandType:
-        //     The type of command to execute.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="sql">The SQL to execute for the query.</param>
+        /// <param name="param">The parameters to pass, if any.</param>
+        /// <param name="transaction">The transaction to use, if any.</param>
+        /// <param name="commandTimeout">The command timeout (in seconds).</param>
+        /// <param name="commandType">The type of command to execute.</param>
         Task<T> QuerySingleOrDefaultAsync<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Remarks:
-        //     Note: the row can be accessed via "dynamic", or by casting to an IDictionary<string,object>
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
         Task<dynamic> QuerySingleOrDefaultAsync(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Execute a single-row query asynchronously using Task.
-        //
-        // Parameters:
-        //   cnn:
-        //     The connection to query on.
-        //
-        //   command:
-        //     The command used to query on connection.
-        //
-        // Type parameters:
-        //   T:
-        //     The type to return.
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="cnn">The connection to query on.</param>
+        /// <param name="command">The command used to query on this connection.</param>
         Task<T> QuerySingleOrDefaultAsync<T>(IDbConnection cnn, CommandDefinition command);
-        //
-        // Summary:
-        //     Replace all literal tokens with their text form.
-        //
-        // Parameters:
-        //   parameters:
-        //     The parameter lookup to do replacements with.
-        //
-        //   command:
-        //     The command to replace parameters in.
+        /// <summary>
+        /// Replace all literal tokens with their text form.
+        /// </summary>
+        /// <param name="parameters">The parameter lookup to do replacements with.</param>
+        /// <param name="command">The command to repalce parameters in.</param>
         void ReplaceLiterals(SqlMapper.IParameterLookup parameters, IDbCommand command);
-        //
-        // Summary:
-        //     Associate a DataTable with a type name.
-        //
-        // Parameters:
-        //   table:
-        //     The System.Data.DataTable that does with the typeName.
-        //
-        //   typeName:
-        //     The name of the type this table is for.
+        /// <summary>
+        /// Associate a DataTable with a type name.
+        /// </summary>
+        /// <param name="table">The <see cref="DataTable"/> that does with the <paramref name="typeName"/>.</param>
+        /// <param name="typeName">The name of the type this table is for.</param>
         void SetTypeName(DataTable table, string typeName);
-        //
-        // Summary:
-        //     Fetch the type name associated with a System.Data.DataTable.
-        //
-        // Parameters:
-        //   table:
-        //     The System.Data.DataTable that has a type name associated with it.
+        /// <summary>
+        /// Fetch the type name associated with a <see cref="DataTable"/>.
+        /// </summary>
+        /// <param name="table">The <see cref="DataTable"/> that has a type name associated with it.</param>
         string GetTypeName(DataTable table);
     }
 }
