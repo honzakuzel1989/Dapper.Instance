@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Dapper.Instance
 {
@@ -13,13 +14,13 @@ namespace Dapper.Instance
         /// </summary>
         /// <param name="list">The list of records to convert to TVPs.</param>
         /// <param name="typeName">The sql parameter type name.</param>
-        SqlMapper.ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
+        ICustomQueryParameter AsTableValuedParameter<T>(IEnumerable<T> list, string typeName = null) where T : IDataRecord;
         /// <summary>
         /// Used to pass a DataTable as a Dapper.TableValuedParameter.
         /// </summary>
         /// <param name="table">The System.Data.DataTable to create parameter for.</param>
         /// <param name="typeName">The name of the type parameter is for.</param>
-        SqlMapper.ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
+        ICustomQueryParameter AsTableValuedParameter(DataTable table, string typeName = null);
         /// <summary>
         /// Execute parameterized SQL.
         /// </summary>
@@ -1050,19 +1051,19 @@ namespace Dapper.Instance
         /// <param name="transaction">The transaction to use for this query.</param>
         /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
         /// <param name="commandType">Is it a stored proc or a batch?</param>
-        SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        GridReader QueryMultiple(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command to execute for this query.</param>
-        SqlMapper.GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
+        GridReader QueryMultiple(IDbConnection cnn, CommandDefinition command);
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command to execute for this query.</param>
-        Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
+        Task<GridReader> QueryMultipleAsync(IDbConnection cnn, CommandDefinition command);
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
         /// </summary>
@@ -1072,7 +1073,7 @@ namespace Dapper.Instance
         /// <param name="transaction">The transaction to use for this query.</param>
         /// <param name="commandTimeout">Number of seconds before command execution timeout.</param>
         /// <param name="commandType">Is it a stored proc or a batch?</param>
-        Task<SqlMapper.GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+        Task<GridReader> QueryMultipleAsync(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
         /// Executes a single-row query, returning the data typed as <paramref name="type"/>.
         /// </summary>
@@ -1292,7 +1293,7 @@ namespace Dapper.Instance
         /// </summary>
         /// <param name="parameters">The parameter lookup to do replacements with.</param>
         /// <param name="command">The command to repalce parameters in.</param>
-        void ReplaceLiterals(SqlMapper.IParameterLookup parameters, IDbCommand command);
+        void ReplaceLiterals(IParameterLookup parameters, IDbCommand command);
         /// <summary>
         /// Associate a DataTable with a type name.
         /// </summary>
