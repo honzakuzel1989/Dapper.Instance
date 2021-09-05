@@ -3,7 +3,7 @@ The instance way how to work with Dapper's extension methods. Especially useful 
 
 # Installation
 
-Install Dapper.Instance NuGet package to your project
+Install `Dapper.Instance` NuGet package to your project
 
 ```
 Install-Package Dapper.Instance
@@ -11,7 +11,7 @@ Install-Package Dapper.Instance
 
 # Usage
 
-Firstly just register IDapper interface with DapperInstance implementation to your IoC/DI container
+Firstly just register `IDapper` interface with `DapperInstance` implementation to your IoC/DI container
 
 ```csharp
 using Dapper.Instance;
